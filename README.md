@@ -1,0 +1,2 @@
+# JMUClassScheduleToiCalender
+将集美大学课程表转换成iCalendar文件
