@@ -18,7 +18,7 @@ python jmu_class_schedule_to_ics.py
 
 将生成的 ics 文件导入到 iOS 中可以得到以下效果：
 
-![iOS Screenshot](screenshot/ios.png)
+![iOS Screenshot](screenshot/ios.PNG)
 
 添加“日程”小组件到负一屏可以很方便地知道今日课程。
 
