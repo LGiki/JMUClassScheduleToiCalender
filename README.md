@@ -14,6 +14,8 @@ pip install -r requirements.txt
 python jmu_class_schedule_to_ics.py
 ```
 
+之后根据程序提示，分别输入：`集大通用户名`、`集大通密码`、`学期第一周星期一的日期`即可。
+
 # Screenshot
 
 将生成的 ics 文件导入到 iOS 中可以得到以下效果：
