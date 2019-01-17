@@ -23,14 +23,26 @@ def get_jmu_sid(username, password):
         return request_result.json()['sid']
 
 
-def get_schedule_to_json(sid):
+def get_schedule_to_json(sid, semester):
     request_result = requests.get(
-        'http://210.34.130.89/CourseSchedule/StudentCourseSchedule?sid=' + sid)
+        'http://210.34.130.89/CourseSchedule/StudentCourseSchedule?sid={}&semester={}'.format(sid, semester))
     if request_result.status_code != 200:
         return -1
     else:
         return request_result.json()
 
+def get_semesters_to_json():
+    request_result = requests.get('http://labs.jmu.edu.cn/CourseSchedule/GetSemesters')
+    if request_result.status_code != 200:
+        return -1
+    else:
+        return request_result.json()
+
+def parse_semesters_json_to_dict(semesters_json):
+    semesters_dict = {}
+    for item in semesters_json:
+        semesters_dict[item['Code']] = item['Name']
+    return semesters_dict
 
 def get_course_take_weeks(all_week):  # 返回课程上课的周
     course_take_weeks = []
@@ -66,6 +78,18 @@ def get_course_take_time(course_time):  # 返回上课时间
 
 def main():
     time_zone = pytz.timezone('Asia/Shanghai')
+    semesters = get_semesters_to_json()
+    if semesters == -1:
+        print('Program met some wrong, please wait and try again.')
+        exit(1)
+    print('Semesters:')
+    semesters_dict = parse_semesters_json_to_dict(semesters)
+    for semester in semesters:
+        print(semester['Code'], '->', semester['Name'])
+    selester_selected = input('Please select a semester (Just need enter the number before arrow):')
+    if not semesters_dict.__contains__(selester_selected):
+        print('Please select a correct semester!')
+        exit(1)
     username = input('Please input your JiDaTong username:')
     password = input('Please input your JiDaTong password:')
     first_day_date_str = input('Please input first day of term(Format: Year-month-day):')
@@ -74,7 +98,7 @@ def main():
         print('Your username or password is error, please try again.')
         exit(1)
     print('Your JiDaTong sid is:', sid)
-    schedule_json = get_schedule_to_json(sid)
+    schedule_json = get_schedule_to_json(sid, selester_selected)
     if schedule_json == -1:
         print('Program met some wrong, please wait and try again.')
         exit(1)
