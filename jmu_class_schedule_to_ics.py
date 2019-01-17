@@ -31,6 +31,7 @@ def get_schedule_to_json(sid, semester):
     else:
         return request_result.json()
 
+
 def get_semesters_to_json():
     request_result = requests.get('http://labs.jmu.edu.cn/CourseSchedule/GetSemesters')
     if request_result.status_code != 200:
@@ -38,11 +39,13 @@ def get_semesters_to_json():
     else:
         return request_result.json()
 
+
 def parse_semesters_json_to_dict(semesters_json):
     semesters_dict = {}
     for item in semesters_json:
         semesters_dict[item['Code']] = item['Name']
     return semesters_dict
+
 
 def get_course_take_weeks(all_week):  # 返回课程上课的周
     course_take_weeks = []
